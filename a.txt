@@ -1,0 +1,74 @@
+API -> BUSINESS -> DAO -> DATABASE
+
+
+1. DATABASE ➜ 
+2. config/db.php ➜ 
+3. DAO ➜ 
+4. BUSINESS ➜ 
+5. API ➜ 
+6. GUI ➜ 
+7. Nhạc & audio player ➜ 
+8. Các chức năng mở rộng
+
+/music-management
+/API
+├── login.php
+├── register.php
+├── get_songs.php
+├── get_playlists.php
+├── like_playlist.php
+├── listen_song.php
+├── upload_song.php          
+├── search_playlists_songs.php  
+├── share_song.php   <-- Tệp mới để xử lý yêu cầu chia sẻ
+
+
+│
+├── /BUSINESS
+│   ├── /interfaces
+│   │   ├── MusicManager – Tìm kiếm, lọc, playlist, like/unlike       
+│   │   ├── ShareManager – Xử lý chia sẻ bài hát
+│   │   ├── SongManager – Quản lý nội dung và metadata bài hát
+│   │   └── AuthManager – Xử lý xác thực và thông tin người dùng
+│   ├──services
+│   │   ├──
+│   │   ├──
+│   │   ├──
+│   │   └──
+/DAO
+├── /class
+│   ├── Share.php   
+│   ├── Aut.php
+│   ├── Song.php 
+│   └── Music.php
+│
+├── /dao
+│   ├── ShareDAO.php  
+│   ├── AutDAO.php
+│   ├── SongDAO.php  <-- Thêm phương thức upload và tìm kiếm bài hát
+│   └── MusicDAO.php
+│
+├── /entity
+│   ├── ShareEntity.php
+│   ├── AutEntity.php
+│   ├── SongEntity.php <-- Thêm các thuộc tính liên quan đến file âm thanh
+│   └── MusicEntity.php
+│
+├── /interface
+│   ├── ShareDAOInterface.php
+│   ├── AutDAOInterface.php
+│   ├── SongDAOInterface.php <-- Thêm phương thức upload và tìm kiếm bài hát
+│   └── MusicDAOInterface.php
+│
+├── /DATABASE
+│   ├── create_tables.sql
+│   └── insert_sample_data.sql
+│
+├── /config
+│   ├── db.php
+│
+├── /audio
+│   └── (files for audio)
+│
+├── index.php
+└── .htaccess

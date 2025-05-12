@@ -1,0 +1,68 @@
+/Music_App_99999
+│
+├── DATABASE/                      # Các tệp SQL khởi tạo CSDL
+│   ├── create_tables.sql
+│   └── insert_sample_data.sql
+│
+├── config/                        # Cấu hình hệ thống
+│   └── db.py                     # Kết nối database
+│
+├── dao/                          
+│   ├── User/
+│   │   │   ───dao_interface.py
+│   │   │   ───User_dao.py
+│   │   │   ───User_interface.py
+│   │   │   └──User_object.py
+│   ├── Song/
+│   │   │   ───dao_interface.py
+│   │   │   ───SongDAO_dao.py
+│   │   │   ───Song_interface.py
+│   │   │   └──Song_object.py
+│   ├── Playlist/
+│   │   │   ───dao_interface.py
+│   │   │   ───Playlist_dao.py
+│   │   │   ───Playlist_interface.py
+│   │   │   └──Playlist_object.py
+│   ├── Belong_to/
+│   │   │   ───dao_interface.py
+│   │   │   ───Belong_to_dao.py
+│   │   │   ───Belong_to_interface.py
+│   │   │   └──Belong_to_object.py
+│   ├── Like/
+│   │   │   ───dao_interface.py
+│   │   │   ───Like_dao.py
+│   │   │   ───Like_interface.py
+│   │   │   ───Like_object.py
+│   │   └──daomanager.py
+
+├── api/
+│   ├── auth_api.py        # Gộp login + register
+│   ├── song_api.py
+│   ├── playlist_api.py    # Bao gồm belong_to
+│   ├── like_api.py
+│   └── daomanager.py
+├── GUI/                           # Giao diện người dùng
+│   ├── index.php                  # Trang chủ
+│   ├── login.php
+│   ├── register.php
+│   ├── dashboard.php              # Sau khi đăng nhập
+│   ├── playlists.php
+│   ├── player.php
+│   ├──
+│   │
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   └── js/
+│   │       └── main.js
+│   │
+│   └── components/
+│       ├── header.php
+│       └── footer.php
+│
+├── audio/                         # Thư mục chứa file nhạc
+│   ├── hoa-bang-lang.mp3
+│   └── buong-doi-tay-nhau-ra.mp3
+│
+├── .htaccess                      # Rewrite URL nếu dùng Apache
+└── README.md                      # Mô tả dự án

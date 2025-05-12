@@ -1,0 +1,38 @@
+<h2>Form đăng nhập</h2>
+<form id="loginForm">
+  <input type="email" id="email" name="email" placeholder="Email" required />
+  <input type="password" id="password" name="password" placeholder="Mật khẩu" required />
+  <button type="submit">Đăng nhập</button>
+</form>
+
+<script>
+  // Sự kiện khi form đăng nhập được gửi
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault(); // Ngừng gửi form theo cách mặc định
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Gửi dữ liệu qua AJAX
+    fetch('http://localhost/Music_App_99999/API/user/login.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: email, password: password })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Xử lý kết quả trả về
+      if (data.message === "Đăng nhập thành công") {
+        alert('Đăng nhập thành công!');
+        // Bạn có thể chuyển hướng người dùng đến trang chính hoặc dashboard
+      } else {
+        alert('Đăng nhập thất bại: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Lỗi:', error);
+    });
+  });
+</script>

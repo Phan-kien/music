@@ -1,0 +1,79 @@
+DROP TABLE IF EXISTS Listen;
+DROP TABLE IF EXISTS Belong_to;
+DROP TABLE IF EXISTS LikePlaylist;
+DROP TABLE IF EXISTS Playlist;
+DROP TABLE IF EXISTS Song;
+DROP TABLE IF EXISTS User;
+
+
+
+CREATE TABLE User (
+    User_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Age INT NULL,
+    Registration_Date DATETIME NOT NULL
+);
+
+CREATE TABLE Playlist (
+    Playlist_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Playlist_Name VARCHAR(255) NOT NULL,
+    ArtistName VARCHAR(255) NOT NULL,
+    ReleaseDate DATE NULL
+);
+
+CREATE TABLE LikePlaylist (
+    User_ID INT NOT NULL,
+    Playlist_ID INT NOT NULL,
+    Liked_At DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (User_ID, Playlist_ID),
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+    FOREIGN KEY (Playlist_ID) REFERENCES Playlist(Playlist_ID)
+);
+
+CREATE TABLE Song (
+    Song_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Song_Name VARCHAR(255) NOT NULL,
+    ArtistName VARCHAR(255) NOT NULL,
+    Genre VARCHAR(100) NOT NULL,
+    ReleaseYear YEAR NULL,
+    Duration TIME,                    -- Thời lượng bài hát
+    Bitrate INT,                      -- Tốc độ bit (kbps)
+    File_Path VARCHAR(500) NOT NULL  -- Đường dẫn tới file âm thanh
+);
+
+CREATE TABLE Belong_to (
+    Song_ID INT NOT NULL,
+    Playlist_ID INT NOT NULL,
+    PRIMARY KEY (Song_ID, Playlist_ID),
+    FOREIGN KEY (Song_ID) REFERENCES Song(Song_ID),
+    FOREIGN KEY (Playlist_ID) REFERENCES Playlist(Playlist_ID)
+);
+
+CREATE TABLE Listen (
+    User_ID INT NOT NULL,
+    Song_ID INT NOT NULL,
+    Listen_Time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (User_ID, Song_ID, Listen_Time),
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID),
+    FOREIGN KEY (Song_ID) REFERENCES Song(Song_ID)
+);
+
+
+
+<?php
+$host = 'localhost';
+$dbname = 'music_db';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    // Thiết lập chế độ báo lỗi
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Kết nối PDO thành công!";
+} catch (PDOException $e) {
+    die("Kết nối PDO thất bại: " . $e->getMessage());
+}
+?>
