@@ -1,19 +1,18 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
 
-@dataclass
-class RegisterInput:
+class RegisterInput(BaseModel):
     username: str
     email: str
     password: str
 
-@dataclass
-class LoginInput:
+class LoginInput(BaseModel):
     username: str
     password: str
 
-@dataclass
-class UserOutput:
-    id: int
+class User(BaseModel):
+    user_id: int
     username: str
     email: str
+    registration_date: Optional[datetime] = None

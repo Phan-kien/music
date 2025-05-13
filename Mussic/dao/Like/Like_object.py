@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from datetime import datetime, date, time
-from typing import Optional
+from datetime import datetime
 
-# LikedSongs
+# Like
 @dataclass
-class LikedSong:
+class Like:
     user_id: int
     song_id: int
     liked_at: datetime
+    

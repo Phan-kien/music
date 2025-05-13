@@ -1,11 +1,10 @@
 from abc import ABC
 from typing import List
 from mysql.connector import MySQLConnection, Error
-from .Like_interface import LikeDAOInterface
-from .Like_object import Like
-from ..Song.Song_object import Song
+from dao.Like.Like_interface import Like, LikeInput
+from dao.Song.Song_object import Song
 
-class LikeDAO(LikeDAOInterface):
+class LikeDAO(Like):
     def __init__(self, db_connection: MySQLConnection):
         self.connection = db_connection
 

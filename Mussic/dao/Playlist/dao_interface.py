@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from .Playlist_object import Playlist
-from .Playlist_interface import PlaylistInput, PlaylistOutput
+from .Playlist_interface import PlaylistInput, Playlist
 
 class PlaylistDAOInterface(ABC):
 

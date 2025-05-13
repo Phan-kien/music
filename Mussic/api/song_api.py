@@ -1,40 +1,44 @@
-# api/song_api.py
-from flask import Blueprint, jsonify, request
-from dao.Song.song_dao import SongDAO
-from dao.Song.Song_object import Song
+from fastapi import APIRouter, HTTPException, Depends
+from dao.daomanager import DAOManager
+from dao.Song.Song_object import  Song
+from dao.Song.Song_interface import SongInput
+from typing import List
 
-song_api = Blueprint('song_api', __name__)
-song_dao = SongDAO()
+router = APIRouter()
 
-@song_api.route('/songs', methods=['GET'])
-def get_all_songs():
-    songs = song_dao.get_all_songs()
-    return jsonify([vars(song) for song in songs]), 200
+@router.post("/", response_model=Song)
+async def add_song(input_data: SongInput, dao_manager: DAOManager = Depends(DAOManager)):
+    song_dao = dao_manager.get_song_dao()
+    song = song_dao.add_song(input_data)
+    if not song:
+        raise HTTPException(status_code=500, detail="Failed to add song")
+    return song
 
-@song_api.route('/songs/<int:song_id>', methods=['GET'])
-def get_song(song_id):
+@router.get("/{song_id}", response_model=Song)
+async def get_song(song_id: int, dao_manager: DAOManager = Depends(DAOManager)):
+    song_dao = dao_manager.get_song_dao()
     song = song_dao.get_song_by_id(song_id)
-    if song:
-        return jsonify(vars(song)), 200
-    return jsonify({'error': 'Song not found'}), 404
+    if not song:
+        raise HTTPException(status_code=404, detail="Song not found")
+    return song
 
-@song_api.route('/songs', methods=['POST'])
-def add_song():
-    data = request.get_json()
-    song = Song(
-        song_id=None,  # Auto-increment
-        user_id=data.get('user_id'),
-        song_name=data.get('song_name'),
-        artist_name=data.get('artist_name'),
-        genre=data.get('genre'),
-        release_year=data.get('release_year'),
-        album=data.get('album'),
-        upload_date=None,  # Auto-set by DB
-        duration=data.get('duration'),
-        bitrate=data.get('bitrate'),
-        file_path=data.get('file_path')
-    )
-    song_id = song_dao.add_song(song)
-    if song_id:
-        return jsonify({'song_id': song_id}), 201
-    return jsonify({'error': 'Failed to add song'}), 500
+@router.get("/", response_model=List[Song])
+async def get_all_songs(dao_manager: DAOManager = Depends(DAOManager)):
+    song_dao = dao_manager.get_song_dao()
+    songs = song_dao.get_all_songs()
+    return songs
+
+@router.put("/{song_id}", response_model=Song)
+async def update_song(song_id: int, input_data: SongInput, dao_manager: DAOManager = Depends(DAOManager)):
+    song_dao = dao_manager.get_song_dao()
+    song = song_dao.update_song(song_id, input_data)
+    if not song:
+        raise HTTPException(status_code=404, detail="Song not found or update failed")
+    return song
+
+@router.delete("/{song_id}")
+async def delete_song(song_id: int, dao_manager: DAOManager = Depends(DAOManager)):
+    song_dao = dao_manager.get_song_dao()
+    if not song_dao.delete_song(song_id):
+        raise HTTPException(status_code=404, detail="Song not found or deletion failed")
+    return {"message": "Song deleted"}

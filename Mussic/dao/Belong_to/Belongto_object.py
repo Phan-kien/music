@@ -1,9 +1,15 @@
 from dataclasses import dataclass
-from datetime import datetime, date, time
-from typing import Optional
+from pydantic import BaseModel
 
 # Belong_to
 @dataclass
 class BelongTo:
     song_id: int
     playlist_id: int
+
+class BelongToInput(BaseModel):
+    song_id: int
+    playlist_id: int
+
+class BelongTo(BelongToInput):
+    pass

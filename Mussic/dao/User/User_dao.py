@@ -1,9 +1,9 @@
 from typing import Optional
 from mysql.connector import MySQLConnection, Error
-from .User_interface import LoginInput, RegisterInput, UserDAOInterface
-from .User_object import User
+from dao.User.User_interface import LoginInput, RegisterInput, User
+from dao.User.User_object import User
 
-class UserDAO(UserDAOInterface):
+class UserDAO(User):
     def __init__(self, db_connection: MySQLConnection):
         self.connection = db_connection
 

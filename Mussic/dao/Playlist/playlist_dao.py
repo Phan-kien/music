@@ -1,10 +1,10 @@
 from abc import ABC
 from typing import List, Optional
 from mysql.connector import MySQLConnection, Error
-from .Playlist_interface import PlaylistDAOInterface, PlaylistInput
-from .Playlist_object import Playlist
+from dao.Playlist.Playlist_interface import Playlist, PlaylistInput
+from dao.Playlist.Playlist_object import Playlist
 
-class PlaylistDAO(PlaylistDAOInterface):
+class PlaylistDAO(Playlist):
     def __init__(self, db_connection: MySQLConnection):
         self.connection = db_connection
 

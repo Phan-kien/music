@@ -1,24 +1,44 @@
-from flask import Blueprint, request, jsonify
+from fastapi import APIRouter, HTTPException, Depends
 from dao.daomanager import DAOManager
-from config.db import get_connection
+from dao.Playlist.Playlist_object import Playlist
+from dao.Playlist.Playlist_interface import PlaylistInput
+from typing import List
 
-playlist_api = Blueprint('playlist_api', __name__)
-dao_manager = DAOManager(get_connection())
+router = APIRouter()
 
-@playlist_api.route('/api/playlists', methods=['POST'])
-def create_playlist():
-    try:
-        data = request.get_json()
-        user_id = data['user_id']
-        playlist_name = data['playlist_name']
+@router.post("/", response_model=Playlist)
+async def create_playlist(input_data: PlaylistInput, dao_manager: DAOManager = Depends(DAOManager)):
+    playlist_dao = dao_manager.get_playlist_dao()
+    playlist = playlist_dao.create_playlist(input_data)
+    if not playlist:
+        raise HTTPException(status_code=500, detail="Failed to create playlist")
+    return playlist
 
-        # Lấy DAO Playlist thông qua DAOManager
-        playlist_dao = dao_manager.get_playlist_dao()
+@router.get("/{playlist_id}", response_model=Playlist)
+async def get_playlist(playlist_id: int, dao_manager: DAOManager = Depends(DAOManager)):
+    playlist_dao = dao_manager.get_playlist_dao()
+    playlist = playlist_dao.get_playlist_by_id(playlist_id)
+    if not playlist:
+        raise HTTPException(status_code=404, detail="Playlist not found")
+    return playlist
 
-        # Tạo playlist
-        playlist = playlist_dao.create_playlist(user_id, playlist_name)
+@router.get("/user/{user_id}", response_model=List[Playlist])
+async def get_all_playlists(user_id: int, dao_manager: DAOManager = Depends(DAOManager)):
+    playlist_dao = dao_manager.get_playlist_dao()
+    playlists = playlist_dao.get_all_playlists(user_id)
+    return playlists
 
-        return jsonify(playlist.to_dict()), 201
+@router.put("/{playlist_id}", response_model=Playlist)
+async def update_playlist(playlist_id: int, input_data: PlaylistInput, dao_manager: DAOManager = Depends(DAOManager)):
+    playlist_dao = dao_manager.get_playlist_dao()
+    playlist = playlist_dao.update_playlist(playlist_id, input_data)
+    if not playlist:
+        raise HTTPException(status_code=404, detail="Playlist not found or update failed")
+    return playlist
 
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
+@router.delete("/{playlist_id}")
+async def delete_playlist(playlist_id: int, dao_manager: DAOManager = Depends(DAOManager)):
+    playlist_dao = dao_manager.get_playlist_dao()
+    if not playlist_dao.delete_playlist(playlist_id):
+        raise HTTPException(status_code=404, detail="Playlist not found or deletion failed")
+    return {"message": "Playlist deleted"}

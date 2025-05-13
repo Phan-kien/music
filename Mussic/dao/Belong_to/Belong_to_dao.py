@@ -1,11 +1,11 @@
 from abc import ABC
 from typing import List
 from mysql.connector import MySQLConnection, Error
-from .Belongto_interface import BelongToDAOInterface
-from .Belongto_object import BelongTo
-from ..Song.Song_object import Song
+from dao.Belong_to.Belongto_interface import BelongTo, BelongToInput
+from dao.Belong_to.Belongto_object import BelongTo
+from dao.Song.Song_object import Song
 
-class BelongToDAO(BelongToDAOInterface):
+class BelongToDAO(BelongTo):
     def __init__(self, db_connection: MySQLConnection):
         self.connection = db_connection
 

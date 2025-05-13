@@ -1,17 +1,16 @@
-from dataclasses import dataclass
-from typing import Optional
+from pydantic import BaseModel
 from datetime import date
+from typing import Optional
 
-@dataclass
-class PlaylistInput:
+class PlaylistInput(BaseModel):
     user_id: int
     playlist_name: str
-    artist_name: Optional[str]
-    release_date: Optional[date]
+    artist_name: Optional[str] = None
+    release_date: Optional[date] = None
 
-@dataclass
-class PlaylistOutput:
-    id: int
+class Playlist(BaseModel):
+    playlist_id: int
+    user_id: int
     playlist_name: str
-    artist_name: Optional[str]
-    release_date: Optional[date]
+    artist_name: Optional[str] = None
+    release_date: Optional[date] = None

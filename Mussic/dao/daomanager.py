@@ -5,6 +5,7 @@ from dao.Playlist.playlist_dao import PlaylistDAO
 from dao.Belong_to.Belong_to_dao import BelongToDAO
 from dao.Like.Like_dao import LikeDAO
 
+
 class DAOManager:
     def __init__(self, db_config: dict):
         self.connection = None
