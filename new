@@ -1,13 +1,13 @@
 /Music_App_99999
-│
-├── DATABASE/                      # Các tệp SQL khởi tạo CSDL
+├── backend/
+├─── DATABASE/                      # Các tệp SQL khởi tạo CSDL
 │   ├── create_tables.sql
 │   └── insert_sample_data.sql
 │
-├── config/                        # Cấu hình hệ thống
+├─── config/                        # Cấu hình hệ thống
 │   └── db.py                     # Kết nối database
 │
-├── dao/                          
+├─── dao/                          
 │   ├── User/
 │   │   │   ───dao_interface.py
 │   │   │   ───User_dao.py
@@ -15,7 +15,7 @@
 │   │   │   └──User_object.py
 │   ├── Song/
 │   │   │   ───dao_interface.py
-│   │   │   ───SongDAO_dao.py
+│   │   │   ───song_dao.py
 │   │   │   ───Song_interface.py
 │   │   │   └──Song_object.py
 │   ├── Playlist/
@@ -25,46 +25,50 @@
 │   │   │   └──Playlist_object.py
 │   ├── Belong_to/
 │   │   │   ───dao_interface.py
-│   │   │   ───Belong_to_dao.py
-│   │   │   ───Belong_to_interface.py
-│   │   │   └──Belong_to_object.py
+│   │   │   ───Belongto_dao.py
+│   │   │   ───Belongto_interface.py
+│   │   │   └──Belongto_object.py
 │   ├── Like/
 │   │   │   ───dao_interface.py
 │   │   │   ───Like_dao.py
 │   │   │   ───Like_interface.py
 │   │   │   ───Like_object.py
 │   │   └──daomanager.py
+├─── api/                          
+│   ├── user.py
+│   ├── like.py
+│   ├── playlist.py
+│   ├── song.py
+│   ├── belong_to.py
 
-├── api/                           # Endpoint phục vụ dữ liệu cho frontend
-│   ├── login_api.py
-│   ├── register_api.py
-│   ├── like_api.py
-│   ├── playlist_api.py
-│   ├── song_api.py
-│   ├── Belong_to_api.py
+├── frontend/                           
+│    ├── src/                
+│    │   ├── assets/
+│    │   ├── page/
+│    │   │   ├── Home.jsx
+│    │   │   ├── Login.jsx
+│    │   │   ├── Register.jsx
+│    │   ├── components/
+│    │   │   ├── AuthForm.jsx
+│    │   │   ├── LikedSongs.jsx
+│    │   │   ├── Navbar.jsx
+│    │   │   ├── PlaylistList.jsx
+│    │   │   └── SongList.jsx
+│    │   ├── App.jsx
+│    │   ├── api.js
+│    │   ├── index.css
+│    │   └── main.jsx
+│    ├── index.html
+│    ├── package-lock.json             
+│    ├── package.json
+│    ├── vite.config.js
+│    ├── tailwind.config.js
+│    └── postcss.config.js
 
-├── GUI/                           # Giao diện người dùng
-│   ├── index.php                  # Trang chủ
-│   ├── login.php
-│   ├── register.php
-│   ├── dashboard.php              # Sau khi đăng nhập
-│   ├── playlists.php
-│   ├── player.php
-│   ├──
-│   │
-│   ├── assets/
-│   │   ├── css/
-│   │   │   └── style.css
-│   │   └── js/
-│   │       └── main.js
-│   │
-│   └── components/
-│       ├── header.php
-│       └── footer.php
-│
-├── audio/                         # Thư mục chứa file nhạc
+
+├── audio/                         # Thư mục chứa file nhạc khi người dùng upload 
 │   ├── hoa-bang-lang.mp3
 │   └── buong-doi-tay-nhau-ra.mp3
 │
-├── .htaccess                      # Rewrite URL nếu dùng Apache
+├── .htaccess                     
 └── README.md                      # Mô tả dự án
